@@ -31,7 +31,6 @@ public class MyString implements Comparable<MyString>
 	
 	public MyString(String a)
 	{
-		//this.str = a;
 		this.curr_length = a.length();
 		this.charArr = new char[curr_length];
 		for (int i = 0; i < curr_length; i++)
