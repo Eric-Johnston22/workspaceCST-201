@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class Main
 {
-
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		BinaryTree myTree = new BinaryTree();
@@ -16,7 +15,7 @@ public class Main
 		Scanner userIn = new Scanner(System.in);
 		String input = "";
 		
-		// Add contents of file to myList
+		// Add contents of file to List
 		while (fileIn.hasNext())
 		{
 			myList.add(fileIn.next());
@@ -24,12 +23,11 @@ public class Main
 		// Close input
 		fileIn.close();
 		
-		// Insert data into tree
+		// Insert data from List into Tree
 		for (String i : myList)
 		{
 			myTree.insert(new BinaryTree.Node(i));
 		}
-		
 		
 		myTree.display();
 		
@@ -46,14 +44,12 @@ public class Main
 			
 			System.out.println(myTree.search(input) ? "'" + input +"'" + " located": "'" + input +"'" + " not in tree");
 			System.out.println("Inspected " + myTree.counter + " elements");
-			
 		}
 		
 		// User input for string removal
 		while (true)
 		{
-			System.out.println("\nEneter a string to remove, or enter 0 to quit: ");
-			
+			System.out.println("\nEnter a string to remove, or enter 0 to quit: ");
 			input = userIn.nextLine();
 			
 			if (input.equals("0"))
@@ -73,7 +69,7 @@ public class Main
 			
 			myTree.display();
 		}
-
+		userIn.close();
 	}
 
 }
