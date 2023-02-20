@@ -1,8 +1,6 @@
 package app;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Graph
@@ -43,6 +41,7 @@ public class Graph
 
 	public void makeGraph(int[][] edges)
 	{
+		// Loop through all edges, add them to edgeArr
 		for (int i = 0; i < edges.length; i++)
 		{
 			addEdge(edges[i][0], edges[i][1], edges[i][2]);
@@ -51,113 +50,89 @@ public class Graph
 
 	public void printGraph(int[][] matrix)
 	{
-//		int[][] newMatrix = new int[15][15];
+		System.out.println("The first number in each row represents a connecting county's vertex,"
+				+ " while the second number represents the distance between "
+				+ "the current vertex and that connecting vertex.\n");
+		for (int i = 0; i < edgeArr.length; i++)
+		{
+			System.out.println("Vertex " + edgeArr[i].get(0).source + " - " + azCounties[i] + " county" + ":");
+			
+			for (int j = 0; j < edgeArr[i].size(); j++)
+			{
+				// Holds temporary destination
+				int neighbor = edgeArr[i].get(j).destination;
+				
+				System.out.print("\s\s\s" + "(" + neighbor + ") " + azCounties[neighbor] + " ");
+				System.out.print(edgeArr[i].get(j).distance + " \n");
+				
+			}
+		}
+		
+		
+//		int[][] newMatrix = new int[16][16];
 //		
-//
-//		for (int i = 0; i < edgeArr.length; i++)
+//		for (int i = 0; i < 16; i++)
 //		{
-//			for (int j = 0; j < edgeArr[i].size(); j++)
+//			for (int j = 0; j < 16; j++)
 //			{
-//				int tempDest = edgeArr[i].get(j).destination;
-//				int numNeighbors = getNeighbors(0).size();
-//				
-//				System.out.println(i + j);
+//				if(!(i < 1))
+//				{
+//					newMatrix[i][0] = i;
+//					newMatrix[0][j] = j;
+//				}
 //			}
 //		}
 //		
-//		for (int[] row : newMatrix)
+//		for(int row = 1; row < 16; row++)
 //		{
-//			System.out.println(Arrays.toString(row));
-//		}
-
-
-//		for(int row = 0; row < 15; row++)
-//		{
-//			for(int col = 0; col < 15; col++)
+//			for(int col = 1; col < 16; col++)
 //			{
 //				for (int i = 0; i < edgeArr.length; i++)
 //				{
 //					for (int j = 0; j < edgeArr[i].size(); j++)
 //					{
-//						int tempDest = edgeArr[i].get(j).destination;
-//						System.out.println(tempDest);
+//						int neighbor = edgeArr[i].get(j).destination;
+//						int numNeighbors = getNeighbors(0).size();
+//						
+//						if (col == neighbor)
+//						{
+//							newMatrix[row][col] = edgeArr[i].get(j).distance;
+//						}
+//						else
+//						{
+//							newMatrix[row][col] = 9;
+//						}
 //					}
-//					System.out.println();
 //				}
 //			}
 //		}
-		
 
-//		for (int row = 0; row < 15; row++)
+//		for (int[] row : newMatrix)
 //		{
-//			for (int col = 0; col < 15; col++)
-//			{
-//				if (matrix[row][col] == Integer.MAX_VALUE)
-//					System.out.printf("%5s", "X");
-//				else
-//					System.out.printf("%5d", matrix[row][col]);
-//			}
-//			System.out.println();
+//			System.out.println(Arrays.toString(row));
 //		}
-
-		System.out.println("The first number in each row represents a connecting county's vertex,"
-							+ " while the second number represents the distance between "
-							+ "the current vertex and that connecting vertex.\n");
-		for (int i = 0; i < edgeArr.length; i++)
-		{	
-			System.out.println("Vertex " + edgeArr[i].get(0).source + " - " + azCounties[i] + " county" + ":");
-			
-			for (int j = 0; j < edgeArr[i].size(); j++)
-			{
-				// Holds temporary destination 
-				int tempDest = edgeArr[i].get(j).destination;
-				
-				System.out.print("\s\s\s" + "(" + tempDest + ") " + azCounties[tempDest] + " ");
-				System.out.print(edgeArr[i].get(j).distance + " \n");
-				
-				
-			}
-		}
 	}
 
 	public int getDistance(int source, int destination)
 	{
-		ArrayList<Integer> visited = new ArrayList<>();
-		int distanceTraveled = 0;
-		int MAX_INT_VAL = Integer.MAX_VALUE;
-		visited.add(source);
-
-		for (int i = source; i < edgeArr.length; i++)
+		// Loop through each edge of the source vertex
+		for (Edge edge : edgeArr[source])
 		{
-			for (Edge edge : edgeArr[i])
+			// Look for destination within each edge of the source vertex
+			if (edge.destination == destination)
 			{
-				if (destination == edge.destination)
-				{
-					distanceTraveled = edge.distance;
-				}
-				// return distanceTraveled;
-				else
-				{
-					i = edge.destination;
-					for (Edge newEdge : edgeArr[i])
-					{
-						if (newEdge.destination == destination && !visited.contains(edge.destination))
-						{
-							visited.add(i);
-							distanceTraveled += edge.distance + newEdge.distance;
-
-						}
-					}
-				}
+				return edge.distance;
 			}
 		}
 
-		return distanceTraveled;
+		// Return if destination not found
+		return Integer.MAX_VALUE;
 	}
 
 	public List<String> getNeighbors(int source)
 	{
 		List<String> neighbors = new ArrayList<>();
+		// Loop through each edge of the source vertex
 		for (Edge edge : edgeArr[source])
 		{
 			neighbors.add(azCounties[edge.destination]);
